@@ -161,6 +161,10 @@ class Create(Resource):
             headers = self.http_headers()
 
         new_attributes = self.api.post(self.path, self.to_dict(), headers, refresh_token)
+
+        ## Patch for v2
+        new_attributes["id"] = new_attributes["href"].split("/")[-1]
+
         self.error = None
         self.merge(new_attributes)
         return self.success()
@@ -232,6 +236,8 @@ class Post(Resource):
         if not isinstance(attributes, Resource):
             attributes = Resource(attributes, api=self.api)
         new_attributes = self.api.post(url, attributes.to_dict(), attributes.http_headers(), refresh_token)
+
+        print(new_attributes)
         if isinstance(cls, Resource):
             cls.error = None
             cls.merge(new_attributes)
