@@ -237,7 +237,6 @@ class Post(Resource):
             attributes = Resource(attributes, api=self.api)
         new_attributes = self.api.post(url, attributes.to_dict(), attributes.http_headers(), refresh_token)
 
-        print(new_attributes)
         if isinstance(cls, Resource):
             cls.error = None
             cls.merge(new_attributes)
